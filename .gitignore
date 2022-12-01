@@ -1,4 +1,5 @@
-venv-aoc/
+input.txt
+!day00/input.txt
 
 # Byte-compiled / optimized / DLL files
 __pycache__/

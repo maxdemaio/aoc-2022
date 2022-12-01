@@ -5,24 +5,26 @@ INPUT_TXT = os.path.join(os.path.dirname(__file__), 'input.txt')
 
 
 def compute(s: str) -> int:
-    lines = s.splitlines()
-    print(lines)
+    groups = s.split("\n\n")
 
-    elves = {}
-    i = 0
+    elfCalCount = [0, 0, 0]
 
-    for line in lines:
-        # new line, next elf
-        if line == "":
-            i += 1
-            continue
-        if i in elves:
-            elves[i] += int(line)
-        else:
-            elves[i] = 0
-            elves[i] += int(line)
+    for group in groups:
+        lines = group.split("\n")
+        sum = 0
+        for line in lines:
+            sum += int(line)
+        if sum > elfCalCount[0]:
+            elfCalCount[2] = elfCalCount[1]
+            elfCalCount[1] = elfCalCount[0]
+            elfCalCount[0] = sum
+        elif sum > elfCalCount[1]:
+            elfCalCount[2] = elfCalCount[1]
+            elfCalCount[1] = sum
+        elif sum > elfCalCount[2]:
+            elfCalCount[2] = sum
 
-    return max(elves.values())
+    return elfCalCount[0]
 
 INPUT_S = '''\
 1000
@@ -38,8 +40,9 @@ INPUT_S = '''\
 8000
 9000
 
-10000
+10000\
 '''
+
 EXPECTED = 24000
 
 
