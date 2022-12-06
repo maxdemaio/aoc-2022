@@ -4,7 +4,6 @@
     <list default="true" id="d4626bed-a5cc-4a5b-a001-3d57cdb96f1b" name="Changes" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/day05/part1.py" beforeDir="false" afterPath="$PROJECT_DIR$/day05/part1.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/day05/part2.py" beforeDir="false" afterPath="$PROJECT_DIR$/day05/part2.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -30,7 +29,7 @@
     &quot;settings.editor.selected.configurable&quot;: &quot;com.jetbrains.python.configuration.PyActiveSdkModuleConfigurable&quot;
   }
 }</component>
-  <component name="RunManager" selected="Python.part2">
+  <component name="RunManager" selected="Python tests.Python tests for part1.test">
     <configuration name="Current file" type="PythonConfigurationType" factoryName="Python">
       <module name="aoc-2022" />
       <option name="INTERPRETER_OPTIONS" value="" />
@@ -140,11 +139,11 @@
     </list>
     <recent_temporary>
       <list>
+        <item itemvalue="Python tests.Python tests for part1.test" />
+        <item itemvalue="Python.part1" />
         <item itemvalue="Python.part2" />
         <item itemvalue="Python tests.Python tests in part2.py" />
         <item itemvalue="Python tests.Python tests for part2.test (1)" />
-        <item itemvalue="Python.part1" />
-        <item itemvalue="Python tests.Python tests for part1.test" />
       </list>
     </recent_temporary>
   </component>
