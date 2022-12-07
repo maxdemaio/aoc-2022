@@ -2,19 +2,21 @@ package main
 
 import "testing"
 
-var testStr string = `mjqjpqmgbljsphdztnvjfqwrcgsmlb`
+var testStr string = `A Y
+B X
+C Z`
 
 func TestPart1(t *testing.T) {
-	result := Solve(testStr, 4)
-	expected := 7
+	result := Part1(testStr)
+	expected := 15
 	if result != expected {
 		t.Errorf("Result is incorrect, got: %d, want: %d.", result, expected)
 	}
 }
 
 func TestPart2(t *testing.T) {
-	result := Solve(testStr, 14)
-	expected := 19
+	result := Part2(testStr)
+	expected := 12
 	if result != expected {
 		t.Errorf("Result is incorrect, got: %d, want: %d.", result, expected)
 	}

@@ -20,7 +20,7 @@ func allDiff(s string) bool {
 	return true
 }
 
-func Part1(data string, n int) int {
+func Solve(data string, n int) int {
 	for i := 0; i < len(data)-n; i++ {
 		s := data[i : i+n]
 		if allDiff(s) {
@@ -38,8 +38,9 @@ func main() {
 	if err != nil {
 		log.Fatal(err)
 	}
+
 	// change byte[] to string
 	data_s := string(data)
-	fmt.Println("part1: ", Part1(data_s, 4))
-	fmt.Println("part2: ", Part1(data_s, 14))
+	fmt.Println("part1: ", Solve(data_s, 4))
+	fmt.Println("part2: ", Solve(data_s, 14))
 }
