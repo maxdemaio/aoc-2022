@@ -135,62 +135,88 @@ func Part2(filepath string) int {
 
 	for r := 0; r < n; r++ {
 		for c := 0; c < n; c++ {
-			maxScenicScores := []int{r, 1, 1, 1}
+			maxScenicScores := []int{r, n - c - 1, n - r - 1, c}
 			scenicScores := []int{0, 0, 0, 0}
 
-			// tree found to the left that's taller or equal
-			// update left scenic score
-			for i := 0; i < c; i++ {
-				if forest[r][i] >= forest[r][c] {
-					maxScenicScores[0] = 0
-					break
-				}
-			}
-
-			// tree found to the right that's taller or equal
-			// update right scenic score
-			for i := c + 1; i < n; i++ {
-				if forest[r][i] >= forest[r][c] {
-					scenicScores[1] = maxScenicScores[1] - i
-					break
-				}
-			}
-
-			// tree found to the right that's taller or equal
-			// update right scenic score
+			// tree found to the top that's taller or equal
+			// (approach: top down)
+			// update top scenic score
+			tblock := false
 			for i := 0; i < r; i++ {
 				if forest[i][c] >= forest[r][c] {
-					maxScenicScores[2] = 0
+					scenicScores[0] = maxScenicScores[0] - i
+					tblock = true
 				}
+			}
+			if !tblock {
+				scenicScores[0] = maxScenicScores[0]
 			}
 
 			// tree found to the right that's taller or equal
+			// (approach: right one to edge)
 			// update right scenic score
+			rblock := false
+			for i := c + 1; i < n; i++ {
+				if forest[r][i] >= forest[r][c] {
+					scenicScores[1] = i - n + maxScenicScores[1] + 1
+					rblock = true
+					break
+				}
+			}
+			if !rblock {
+				scenicScores[1] = maxScenicScores[1]
+			}
+
+			// tree found to the bottom that's taller or equal
+			// (approach: below one to edge)
+			// update bottom scenic score
+			bblock := false
 			for i := r + 1; i < n; i++ {
 				if forest[i][c] >= forest[r][c] {
-					maxScenicScores[3] = 0
+					scenicScores[2] = i - n + maxScenicScores[2] + 1
+					bblock = true
+					break
 				}
+			}
+			if !bblock {
+				scenicScores[2] = maxScenicScores[2]
+			}
+
+			// tree found to the left that's taller or equal
+			// (approach: left edge to tree)
+			// update left scenic score
+			lblock := false
+			for i := 0; i < c; i++ {
+				if forest[r][i] >= forest[r][c] {
+					scenicScores[3] = maxScenicScores[3] - i
+					lblock = true
+				}
+			}
+			if !lblock {
+				scenicScores[3] = maxScenicScores[3]
 			}
 
 			// calculate total scenic score (top right bottom left)
-			sum := 0
+			product := 1
 			for _, v := range scenicScores {
-				sum *= v
+				product *= v
 			}
 
+			fmt.Println()
+			fmt.Printf("scenic score for tree [%d, %d]: %d", r, c, product)
+			fmt.Println()
+
 			// if greater than previous scores, change
-			if sum > maxScenicScore {
-				maxScenicScore = sum
+			if product > maxScenicScore {
+				maxScenicScore = product
 			}
 		}
 	}
 
-	return 0
+	return maxScenicScore
 }
 
 func main() {
 	// change byte[] to string
-	fmt.Printf("part1: %d", Part1("input.txt"))
-	fmt.Println()
 	fmt.Printf("part2: %d", Part2("input.txt"))
 }

@@ -10,10 +10,10 @@ func TestPart1(t *testing.T) {
 	}
 }
 
-// func TestPart2(t *testing.T) {
-// 	result := Part2("test.txt")
-// 	expected := 8
-// 	if result != expected {
-// 		t.Errorf("Result is incorrect, got: %d, want: %d.", result, expected)
-// 	}
-// }
+func TestPart2(t *testing.T) {
+	result := Part2("test.txt")
+	expected := 8
+	if result != expected {
+		t.Errorf("Result is incorrect, got: %d, want: %d.", result, expected)
+	}
+}
