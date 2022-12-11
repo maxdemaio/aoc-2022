@@ -1,8 +1,8 @@
 package utils
 
-func AbsDiffInt(x int, y int) int {
-	if x < y {
-		return y - x
+func Abs(val int) int {
+	if val < 0 {
+		val = val * -1
 	}
-	return x - y
+	return val
 }

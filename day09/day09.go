@@ -11,15 +11,76 @@ import (
 	"github.com/maxdemaio/aoc-2022/utils"
 )
 
-var mvMap map[string][2]int
-
-func touching(x1 int, x2 int, y1 int, y2 int) bool {
-	xdif := utils.AbsDiffInt(x1, x2)
-	ydif := utils.AbsDiffInt(y1, y2)
-	return xdif <= 1 && ydif <= 1
+type Pos struct {
+	x, y int
 }
 
-func Part1(filepath string, n int, mvMap map[string][2]int) int {
+/*
+State to contain the following:
+- Number of knots
+- Positions of knots (Oth position is for the head and so on)
+- Set of positions where the tail knots have been
+*/
+type State struct {
+	n    int
+	rope []Pos
+	path utils.Set[Pos]
+}
+
+// Return a pointer to a created State type in memory
+func newState(n int) *State {
+	res := &State{
+		n:    n,
+		rope: make([]Pos, n),
+		path: utils.MakeSet[Pos](),
+	}
+	// Add starting position as default in set
+	res.path.Add(res.rope[n-1])
+	return res
+}
+
+// Method with receiver argument to act upon pointer to State type
+// This is like class methods in OOP languages. Go does not have classes.
+func (s *State) move(dir string) {
+	// Move head of rope based on current direction
+	switch dir {
+	case "U":
+		s.rope[0].y++
+	case "D":
+		s.rope[0].y--
+	case "L":
+		s.rope[0].x--
+	case "R":
+		s.rope[0].x++
+	}
+}
+
+// Method with receiver argument to act upon pointer to State type
+// This is like class methods in OOP languages. Go does not have classes.
+func (s *State) moveTail() {
+	// Each knot in the rope will follow the one in front of it (i-1)
+	// If either x/y absolute difference between those knots is > 1
+	// Adjust the knot to be within 1 distance to the knot in front of itself (i-1)
+	for i := 1; i < s.n; i++ {
+		delta := Pos{s.rope[i-1].x - s.rope[i].x, s.rope[i-1].y - s.rope[i].y}
+		if utils.Abs(delta.x) <= 1 && utils.Abs(delta.y) <= 1 {
+			return
+		}
+		if delta.y > 0 {
+			s.rope[i].y++
+		} else if delta.y < 0 {
+			s.rope[i].y--
+		}
+		if delta.x > 0 {
+			s.rope[i].x++
+		} else if delta.x < 0 {
+			s.rope[i].x--
+		}
+	}
+	s.path.Add(s.rope[s.n-1])
+}
+
+func Run(filepath string, n int) int {
 	file, err := os.Open(filepath)
 	if err != nil {
 		log.Fatalf("can not open file")
@@ -30,8 +91,9 @@ func Part1(filepath string, n int, mvMap map[string][2]int) int {
 
 	scanner := bufio.NewScanner(file)
 
+	state := newState(n)
+
 	for scanner.Scan() {
-		// Split the line into a string and an integer
 		parts := strings.Split(scanner.Text(), " ")
 		dir := parts[0]
 		amt, err := strconv.Atoi(parts[1])
@@ -41,26 +103,17 @@ func Part1(filepath string, n int, mvMap map[string][2]int) int {
 			return -2
 		}
 
-		fmt.Println()
-		fmt.Printf("direction: %s | amount: %d", dir, amt)
-		fmt.Println()
+		for i := 0; i < amt; i++ {
+			state.move(dir)
+			state.moveTail()
+		}
 	}
 
-	fmt.Println(mvMap["R"])
-	return 0
-}
-
-func Part2(filepath string) int {
-	return 0
+	return state.path.Len()
 }
 
 func main() {
-	// init move map of size 4 and add moves
-	mvMap = make(map[string][2]int, 4)
-	mvMap["R"] = [2]int{1, 0}
-	mvMap["U"] = [2]int{0, 1}
-	mvMap["L"] = [2]int{-1, 0}
-	mvMap["D"] = [2]int{0, -1}
-
-	fmt.Printf("part2: %d", Part1("input.txt", 2, mvMap))
+	fmt.Printf("part1: %d", Run("input.txt", 2))
+	fmt.Println()
+	fmt.Printf("part2: %d", Run("input.txt", 10))
 }
