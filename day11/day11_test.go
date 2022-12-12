@@ -5,7 +5,7 @@ import (
 )
 
 func TestPart1(t *testing.T) {
-	result := Run("test.txt", 20)
+	result := Run(20)
 	expected := 10605
 	if result != expected {
 		t.Errorf("Result is incorrect, got: %d, want: %d.", result, expected)
