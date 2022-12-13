@@ -27,7 +27,7 @@ func newMonkeyJamboree(monkys []*Monkey) *MonkeyJamboree {
 	return monkyJam
 }
 
-func (m *Monkey) updateWorryLevel() bool {
+func (m *Monkey) updateWorryLevel(part int) bool {
 	// If a monkey is holding 0 items at the start of its turn, its turn ends
 	// We will return true if update success, false if turn should end
 	if len(m.items) == 0 {
@@ -51,7 +51,11 @@ func (m *Monkey) updateWorryLevel() bool {
 	}
 
 	// Monkey gets bored, round down (default functionality of int division)
-	m.worryLevel = m.worryLevel / 3
+	if part == 1 {
+		m.worryLevel = m.worryLevel / 3
+	} else {
+		m.worryLevel = m.worryLevel % (3 * 13 * 19 * 17 * 5 * 7 * 11 * 2)
+	}
 	return true
 }
 
@@ -81,7 +85,7 @@ func (mj *MonkeyJamboree) throw(from int, to int) {
 	fromMonky.items = fromMonky.items[1:]
 }
 
-func Run(n int) int {
+func Run(part int, n int) int {
 	// Test
 	// monkys := []*Monkey{
 	// 	{[]int{79, 98}, 0, 23, 2, 3, "*", 19, 0},
@@ -115,7 +119,7 @@ func Run(n int) int {
 			// If updateWorryLevel is false, skip to next Monkey
 			// This is because that Monkey had no items
 			currMonky := monkyJam.monkys[j]
-			for currMonky.updateWorryLevel() {
+			for currMonky.updateWorryLevel(part) {
 				if currMonky.divisBy() {
 					monkyJam.throw(j, currMonky.trueMonky)
 				} else {
@@ -142,7 +146,7 @@ func Run(n int) int {
 }
 
 func main() {
-	fmt.Printf("part1: %d", Run(20))
+	fmt.Printf("part1: %d", Run(1, 20))
 	fmt.Println()
-	// fmt.Printf("part2: %d", Run("input.txt", 10))
+	fmt.Printf("part2: %d", Run(2, 10000))
 }
